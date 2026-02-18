@@ -1,0 +1,157 @@
+@use '../variables' as *;
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  background: url('../../assets/hero.jpg') no-repeat;
+  background-size: cover;
+  background-position: center 60%;
+  padding: calc(#{$header-h} + #{$section-y-sm}) 0 $section-y;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+
+    background: linear-gradient(
+      90deg,
+      rgba(247, 248, 251, 0.5) 0%,
+      rgba(247, 248, 251, 0.78) 38%,
+      rgba(247, 248, 251, 0.35) 62%,
+      rgba(247, 248, 251, 0) 100%
+    );
+
+    pointer-events: none;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.02);
+    pointer-events: none;
+  }
+}
+
+.hero__container {
+  position: relative;
+  z-index: 1;
+
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.hero__content {
+  max-width: 720px;
+}
+
+.hero__title {
+  color: $color-text;
+  text-wrap: balance;
+}
+
+.hero__title span {
+  letter-spacing: $ls-wide;
+}
+
+.hero__lead {
+  margin: 0 0 $sp-6;
+  max-width: 62ch;
+
+  font-size: $fs-body;
+  line-height: $lh-body;
+  color: $color-text;
+  opacity: 0.85;
+  font-weight: $fw-regular;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $sp-3;
+}
+
+.hero .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 12px 18px;
+  border-radius: 999px;
+  line-height: 1;
+  font-weight: $fw-semibold;
+  text-decoration: none;
+
+  min-height: 44px;
+
+  transition:
+    transform $transition,
+    box-shadow $transition,
+    background-color $transition,
+    border-color $transition,
+    color $transition;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: $shadow-sm;
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-focus;
+    outline-offset: 3px;
+  }
+}
+
+/* если у тебя btn базово уже есть — оставь, это просто ориентир
+   но ghost важно сделать спокойнее */
+.hero .btn--ghost {
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid $color-border;
+  color: $color-text;
+  backdrop-filter: blur(8px);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.86);
+    border-color: $color-border-strong;
+  }
+}
+
+@media (max-width: $tablet) {
+  .hero {
+    background-position: center 22%;
+    padding: calc(#{$header-h} + #{$sp-6}) 0 $section-y-sm;
+
+    &::before {
+      // на мобилке делаем overlay более равномерным (текст чаще по центру)
+      background: linear-gradient(
+        180deg,
+        rgba(247, 248, 251, 0.92) 0%,
+        rgba(247, 248, 251, 0.78) 45%,
+        rgba(247, 248, 251, 0.25) 100%
+      );
+    }
+  }
+
+  .hero__content {
+    max-width: 100%;
+  }
+
+  .hero__actions {
+    gap: $sp-2;
+  }
+
+  .hero .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: $mobile) {
+  .hero__title {
+    letter-spacing: -0.015em; // чуть мягче на маленьких экранах
+  }
+}

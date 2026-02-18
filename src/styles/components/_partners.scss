@@ -1,0 +1,149 @@
+@use '../variables' as *;
+
+.ops {
+  padding: $section-y 0;
+  background-color: rgba($color-surface, 0.9);
+
+  &__container {
+    display: grid;
+    gap: $sp-5;
+  }
+
+  &__kicker {
+    margin: 0;
+  }
+
+  &__title {
+    max-width: 22ch;
+  }
+
+  &__lead {
+    margin: 0;
+    max-width: 68ch;
+    color: $color-muted;
+    line-height: $lh-body;
+  }
+
+  &__grid {
+    margin-top: $sp-2;
+    display: grid;
+    gap: $sp-4;
+    grid-template-columns: 1fr;
+  }
+
+  &__note {
+    margin: 0;
+    margin-top: $sp-2;
+    color: $color-muted;
+    line-height: $lh-body;
+    font-size: $fs-small;
+  }
+}
+
+.op-card {
+  position: relative;
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto auto auto;
+  gap: $sp-3;
+
+  padding: $sp-5;
+  border-radius: $r-2;
+  background: rgba($color-surface, 0.9);
+  border: 1px solid $color-border;
+  text-decoration: none;
+
+  transition:
+    transform $transition,
+    border-color $transition,
+    box-shadow $transition,
+    background-color $transition;
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: $color-border-strong;
+    box-shadow: $shadow-sm;
+    text-decoration: none;
+  }
+
+  &:active {
+    transform: translateY(-1px);
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-focus;
+    outline-offset: 3px;
+  }
+
+  &__logo {
+    width: 100%;
+    height: 76px;
+    padding: 12px 14px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: $r-1;
+    background: #fff;
+    border: 1px solid rgba($color-soft, 0.2);
+    overflow: hidden;
+
+    img {
+      display: block;
+      max-width: 100%;
+      max-height: 44px;
+      width: auto;
+      height: auto;
+
+      object-fit: contain;
+      object-position: center;
+
+      image-rendering: auto;
+    }
+  }
+
+  &__title {
+    margin: 0;
+    font-size: clamp(16px, 0.5vw + 14px, 20px);
+    line-height: $lh-snug;
+    color: $color-text;
+    letter-spacing: $ls-normal;
+  }
+
+  &__link {
+    margin-top: $sp-1;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    font-size: $fs-small;
+    font-weight: $fw-medium;
+    color: $color-muted;
+
+    transition: color $transition;
+
+    &::after {
+      content: '↗';
+      font-size: 12px;
+      opacity: 0.8;
+    }
+  }
+
+  &:hover &__link {
+    color: $color-text;
+  }
+}
+
+@media (min-width: $tablet) {
+  .ops__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: $sp-5;
+  }
+}
+
+@media (min-width: $desktop) {
+  .ops__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

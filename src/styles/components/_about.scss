@@ -1,0 +1,205 @@
+@use '../variables' as *;
+
+.about {
+  padding: $section-y 0;
+  background: $color-bg;
+}
+
+.about__container {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: $sp-8;
+  align-items: center;
+}
+
+.about__title {
+  margin: $sp-3 0 $sp-3;
+  line-height: $lh-tight;
+  text-wrap: balance;
+}
+
+.about__lead {
+  margin: 0 0 $sp-5;
+  font-size: $fs-body;
+  line-height: $lh-body;
+  color: $color-text;
+  max-width: 58ch;
+}
+
+/* Proof block — спокойно и “по-взрослому” */
+.about__proof {
+  margin: 0 0 $sp-6;
+  padding: $sp-4 $sp-5;
+
+  border-radius: $r-3;
+  background: $color-surface;
+  border: 1px solid $color-border;
+  box-shadow: $shadow-sm;
+}
+
+.about__proofHead {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: $sp-3;
+  align-items: start;
+  margin-bottom: $sp-3;
+}
+
+.about__proofIcon {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+  background: rgba($color-accent, 0.12);
+  border: 1px solid rgba($color-accent, 0.22);
+}
+
+.about__proofTitle {
+  margin: 0 0 2px;
+  font-weight: $fw-bold;
+  letter-spacing: $ls-tight;
+  color: $color-text;
+}
+
+.about__proofSub {
+  margin: 0;
+  font-size: $fs-small;
+  color: $color-muted;
+  line-height: $lh-body;
+}
+
+.about__proofBadges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $sp-2;
+}
+
+.about__chip {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 8px 10px;
+  border-radius: 999px;
+
+  font-size: $fs-xs;
+  font-weight: $fw-semibold;
+
+  background: $color-surface-2;
+  border: 1px solid $color-border;
+  color: $color-text;
+}
+
+/* List */
+.about__list {
+  margin: 0 0 $sp-6;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: $sp-3;
+}
+
+.about__item {
+  display: grid;
+  grid-template-columns: 12px 1fr;
+  align-items: start;
+  gap: 12px;
+
+  color: $color-text;
+  font-size: $fs-body;
+  line-height: $lh-body;
+}
+
+/* точки делаем спокойнее */
+.about__dot {
+  width: 10px;
+  height: 10px;
+  margin-top: 7px;
+  border-radius: 50%;
+  background: rgba($color-accent, 0.9);
+  box-shadow: 0 0 0 3px rgba($color-accent, 0.12);
+}
+
+/* Actions */
+.about__actions {
+  display: flex;
+  gap: $sp-3;
+  flex-wrap: wrap;
+}
+
+/* Media */
+.about__media {
+  align-self: stretch;
+}
+
+.about__mediaStack {
+  height: 100%;
+  min-height: 420px;
+
+  display: grid;
+  gap: $sp-4;
+  align-content: center;
+}
+
+.about__photo,
+.about__videoCard {
+  margin: 0;
+  border-radius: $r-3;
+  overflow: hidden;
+  border: 1px solid $color-border;
+  background: $color-surface-2;
+  box-shadow: $shadow-sm;
+}
+
+.about__photo {
+  min-height: 360px;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 360px;
+    object-fit: cover;
+  }
+}
+
+.about__videoCard {
+  padding: $sp-3;
+  background: $color-surface;
+}
+
+.about__video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: $r-2;
+  background: #000;
+}
+
+.about__caption {
+  margin-top: $sp-2;
+  font-size: $fs-small;
+  color: $color-muted;
+}
+
+/* Responsive */
+@media (max-width: $tablet) {
+  .about__container {
+    grid-template-columns: 1fr;
+    gap: $sp-6;
+  }
+
+  .about__mediaStack {
+    min-height: 0;
+  }
+
+  .about__photo {
+    min-height: 260px;
+
+    img {
+      min-height: 260px;
+    }
+  }
+}

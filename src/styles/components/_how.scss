@@ -1,0 +1,144 @@
+@use '../variables' as *;
+
+.how {
+  padding: $section-y 0;
+
+  &__container {
+    display: grid;
+    gap: $sp-4;
+  }
+
+  &__kicker {
+    margin: 0;
+  }
+
+  &__title {
+    margin: 0;
+    line-height: $lh-tight;
+    text-wrap: balance;
+    max-width: 18ch;
+  }
+
+  &__list {
+    position: relative;
+    margin: $sp-2 0 0;
+    padding: 0;
+    list-style: none;
+
+    display: grid;
+    gap: $sp-6;
+
+    max-width: 900px;
+  }
+
+  &__list::before {
+    content: '';
+    position: absolute;
+    left: 18px;
+    top: 14px;
+    bottom: 14px;
+    width: 2px;
+    background: linear-gradient(
+      180deg,
+      rgba($color-accent, 0.3) 0%,
+      rgba($color-accent, 0.12) 100%
+    );
+    border-radius: 2px;
+  }
+
+  &__item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: $sp-4;
+    align-items: start;
+  }
+
+  &__marker {
+    position: relative;
+    z-index: 1;
+    width: 36px;
+    height: 36px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    font-weight: $fw-semibold;
+    font-size: $fs-small;
+    letter-spacing: 0.01em;
+
+    color: $color-text;
+    background: $color-surface;
+    border: 1px solid rgba($color-accent, 0.35);
+    box-shadow: 0 0 0 5px rgba($color-bg, 0.9);
+  }
+
+  &__content {
+    display: grid;
+    gap: $sp-1;
+    padding-top: 2px;
+  }
+
+  &__heading {
+    margin: 0;
+    font-size: clamp(24px, 1.1vw + 16px, 30px);
+    line-height: $lh-snug;
+    color: $color-text;
+    letter-spacing: $ls-tight;
+  }
+
+  &__text {
+    margin: 0;
+    font-size: $fs-body;
+    line-height: $lh-body;
+    color: $color-muted;
+    max-width: 62ch;
+  }
+}
+
+@media (max-width: $tablet) {
+  .how {
+    &__list {
+      gap: $sp-5;
+    }
+
+    &__list::before {
+      left: 16px;
+    }
+
+    &__item {
+      grid-template-columns: 32px 1fr;
+      gap: $sp-3;
+    }
+
+    &__marker {
+      width: 32px;
+      height: 32px;
+      font-size: $fs-xs;
+    }
+  }
+}
+
+@media (max-width: $mobile) {
+  .how {
+    &__list {
+      gap: $sp-4;
+    }
+
+    &__item {
+      grid-template-columns: 30px 1fr;
+      gap: $sp-2;
+    }
+
+    &__marker {
+      width: 30px;
+      height: 30px;
+    }
+
+    &__list::before {
+      left: 15px;
+    }
+  }
+}
