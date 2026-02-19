@@ -130,6 +130,11 @@
     }
   }
 
+  &__address {
+    margin: 0;
+    font-style: normal;
+  }
+
   &__bottom {
     padding-top: $sp-4;
     display: flex;
