@@ -19,16 +19,24 @@
 .header__left {
   display: flex;
   align-items: center;
+  gap: $sp-2;
 }
 
-.header__logo-cap {
-  font-size: $fs-small;
+.header__logo-text {
+  display: block;
+  max-width: 240px;
+  font-size: 13px;
+  line-height: 1.2;
+  font-weight: $fw-medium;
   color: $color-text;
+  white-space: normal;
 }
 
 .header__logo {
   display: flex;
   align-items: center;
+  gap: $sp-2;
+  text-decoration: none;
 
   img {
     height: 42px;
@@ -87,6 +95,10 @@
 
 /* Мобилка */
 @media (max-width: $tablet) {
+  .header__logo-text {
+    display: none;
+  }
+
   .header__burger {
     display: block;
     z-index: 2;
