@@ -1,10 +1,22 @@
 import './styles/main.scss';
 
-const header = document.querySelector('.header');
-const burger = document.querySelector('.header__burger');
-const nav = document.querySelector('.header__nav');
+const RSS_URL = 'https://rss.app/feeds/UxVyPO87nsjfrw37.xml';
+const FEED_LIMIT = 4;
+const FB_GROUP_URL = 'https://www.facebook.com/groups/1767613113355526/?ref=share';
+const dateFormatter = new Intl.DateTimeFormat('ru-RU', {
+  day: '2-digit',
+  month: 'long',
+  year: 'numeric',
+});
+const htmlParser = new DOMParser();
 
-if (header && burger && nav) {
+const initHeaderMenu = () => {
+  const header = document.querySelector('.header');
+  const burger = document.querySelector('.header__burger');
+  const nav = document.querySelector('.header__nav');
+
+  if (!header || !burger || !nav) return;
+
   const closeMenu = () => {
     header.classList.remove('header--menu-open');
     burger.setAttribute('aria-expanded', 'false');
@@ -16,41 +28,36 @@ if (header && burger && nav) {
   };
 
   burger.addEventListener('click', toggleMenu);
-
-  nav.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', closeMenu);
-  });
+  nav.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
 
   document.addEventListener('click', (event) => {
     const target = event.target;
-    const isMenuOpen = header.classList.contains('header--menu-open');
+    const isInsideMenu =
+      target instanceof Node && (burger.contains(target) || nav.contains(target));
 
-    if (!isMenuOpen) {
-      return;
+    if (header.classList.contains('header--menu-open') && !isInsideMenu) {
+      closeMenu();
     }
-
-    if (
-      target instanceof Node &&
-      (burger.contains(target) || nav.contains(target))
-    ) {
-      return;
-    }
-
-    closeMenu();
   });
-}
+};
 
-const y = document.querySelector('[data-year]');
-if (y) y.textContent = new Date().getFullYear();
-
-const RSS_URL = 'https://rss.app/feeds/UxVyPO87nsjfrw37.xml';
-const FEED_LIMIT = 4;
-const FB_GROUP_URL = 'https://www.facebook.com/groups/1767613113355526/?ref=share';
+const setCurrentYear = () => {
+  const yearNode = document.querySelector('[data-year]');
+  if (yearNode) {
+    yearNode.textContent = String(new Date().getFullYear());
+  }
+};
 
 const stripHtml = (html) => {
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(html, 'text/html');
+  const doc = htmlParser.parseFromString(html, 'text/html');
   return doc.body.textContent?.trim() || '';
+};
+
+const extractFirstImageFromHtml = (html) => {
+  if (!html) return '';
+  const doc = htmlParser.parseFromString(html, 'text/html');
+  const img = doc.querySelector('img');
+  return normalizeUrl(img?.getAttribute('src')?.trim() || '');
 };
 
 const normalizeText = (text) =>
@@ -72,10 +79,10 @@ const escapeHtml = (text) =>
     .replaceAll('"', '&quot;')
     .replaceAll("'", '&#39;');
 
-const normalizeLink = (value) => {
-  if (!value) return FB_GROUP_URL;
+const normalizeUrl = (value, fallback = '') => {
+  if (!value) return fallback;
   if (value.startsWith('http://') || value.startsWith('https://')) return value;
-  return FB_GROUP_URL;
+  return fallback;
 };
 
 const removeDuplicateLead = (description, title) => {
@@ -96,11 +103,7 @@ const removeDuplicateLead = (description, title) => {
 const formatPubDate = (dateString) => {
   const date = new Date(dateString);
   if (Number.isNaN(date.getTime())) return '';
-  return new Intl.DateTimeFormat('ru-RU', {
-    day: '2-digit',
-    month: 'long',
-    year: 'numeric',
-  }).format(date);
+  return dateFormatter.format(date);
 };
 
 const renderFeedState = (container, message, withLink = false) => {
@@ -114,26 +117,33 @@ const renderFeedItems = (container, items) => {
   container.innerHTML = items
     .map((item) => {
       const title = truncate(stripHtml(item.title || 'Публикация'), 90);
-      const cleanDescription = removeDuplicateLead(
-        stripHtml(item.description || ''),
-        title
-      );
+      const cleanDescription = removeDuplicateLead(stripHtml(item.description || ''), title);
       const description = truncate(cleanDescription, 170);
       const date = formatPubDate(item.pubDate);
       const meta = date ? `<p class="offers__item-meta">${escapeHtml(date)}</p>` : '';
       const text = description
         ? `<p class="offers__item-text">${escapeHtml(description)}</p>`
         : '';
+      const image = item.image
+        ? `
+          <figure class="offers__item-media">
+            <img class="offers__item-img" src="${item.image}" alt="${escapeHtml(title)}" loading="lazy" decoding="async" />
+          </figure>
+        `
+        : '';
 
       return `
         <li class="offers__item">
-          <h3 class="offers__item-title">
-            <a class="offers__item-link" href="${item.link}" target="_blank" rel="noopener noreferrer">
-              ${escapeHtml(title)}
-            </a>
-          </h3>
-          ${meta}
-          ${text}
+          ${image}
+          <div class="offers__item-body">
+            <div class="offers__item-head">
+              <span class="offers__item-source">Facebook</span>
+              ${meta}
+            </div>
+            <h3 class="offers__item-title">${escapeHtml(title)}</h3>
+            ${text}
+          </div>
+          <a class="offers__item-cta" href="${item.link}" target="_blank" rel="noopener noreferrer">Читать пост</a>
         </li>
       `;
     })
@@ -151,8 +161,7 @@ const loadOffersFeed = async () => {
     }
 
     const xmlText = await response.text();
-    const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(xmlText, 'application/xml');
+    const xmlDoc = htmlParser.parseFromString(xmlText, 'application/xml');
 
     if (xmlDoc.querySelector('parsererror')) {
       throw new Error('Invalid RSS XML');
@@ -161,15 +170,29 @@ const loadOffersFeed = async () => {
     const seen = new Set();
 
     const items = Array.from(xmlDoc.querySelectorAll('item'))
-      .map((node) => ({
-        title: node.querySelector('title')?.textContent?.trim() || '',
-        link: normalizeLink(node.querySelector('link')?.textContent?.trim()),
-        pubDate: node.querySelector('pubDate')?.textContent?.trim() || '',
-        description:
+      .map((node) => {
+        const descriptionRaw =
           node.querySelector('description')?.textContent?.trim() ||
           node.querySelector('content\\:encoded')?.textContent?.trim() ||
-          '',
-      }))
+          '';
+
+        const mediaImage =
+          node.querySelector('media\\:content')?.getAttribute('url')?.trim() ||
+          node.querySelector('media\\:thumbnail')?.getAttribute('url')?.trim() ||
+          node.querySelector('enclosure')?.getAttribute('url')?.trim() ||
+          '';
+
+        return {
+          title: node.querySelector('title')?.textContent?.trim() || '',
+          link: normalizeUrl(
+            node.querySelector('link')?.textContent?.trim(),
+            FB_GROUP_URL
+          ),
+          pubDate: node.querySelector('pubDate')?.textContent?.trim() || '',
+          description: descriptionRaw,
+          image: normalizeUrl(mediaImage || extractFirstImageFromHtml(descriptionRaw)),
+        };
+      })
       .filter((item) => item.link)
       .filter((item) => {
         const key = normalizeText(item.title || item.link);
@@ -185,9 +208,11 @@ const loadOffersFeed = async () => {
     }
 
     renderFeedItems(list, items);
-  } catch (error) {
+  } catch {
     renderFeedState(list, 'Не удалось загрузить RSS.', true);
   }
 };
 
+initHeaderMenu();
+setCurrentYear();
 loadOffersFeed();

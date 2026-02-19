@@ -31,7 +31,8 @@
 
   &__item {
     display: grid;
-    gap: $sp-2;
+    grid-template-rows: auto 1fr auto;
+    gap: $sp-3;
     align-content: start;
     height: 100%;
     padding: $sp-4;
@@ -55,17 +56,56 @@
     font-size: $fs-small;
   }
 
-  &__item-title {
+  &__item-media {
     margin: 0;
-    font-size: clamp(20px, 0.6vw + 14px, 26px);
-    line-height: $lh-snug;
+    border-radius: $r-1;
+    overflow: hidden;
+    background: $color-surface-2;
+    aspect-ratio: 16 / 9;
   }
 
-  &__item-link {
+  &__item-img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+
+  &__item-body {
+    display: grid;
+    gap: $sp-2;
+    align-content: start;
+  }
+
+  &__item-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $sp-2;
+  }
+
+  &__item-source {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 9px;
+    border-radius: 999px;
+    font-size: $fs-xs;
+    color: $color-soft;
+    background: $color-surface-2;
+    border: 1px solid $color-border;
+  }
+
+  &__item-title {
+    margin: 0;
+    font-size: clamp(21px, 0.7vw + 14px, 28px);
+    line-height: $lh-snug;
     display: -webkit-box;
     overflow: hidden;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+  }
+
+  &__item-link {
     color: $color-text;
     text-decoration: none;
 
@@ -79,6 +119,7 @@
     margin: 0;
     font-size: $fs-xs;
     color: $color-soft;
+    white-space: nowrap;
   }
 
   &__item-text {
@@ -89,6 +130,19 @@
     overflow: hidden;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
+  }
+
+  &__item-cta {
+    margin-top: $sp-1;
+    justify-self: start;
+    color: $color-accent;
+    font-size: $fs-small;
+    font-weight: $fw-semibold;
+    text-decoration: none;
+
+    &:hover {
+      color: $color-accent-2;
+    }
   }
 }
 
