@@ -2,7 +2,7 @@
 <html lang="ru">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="./src/assets/logo.png" />
+    <link rel="icon" type="image/svg+xml" href="../src/assets/logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
       LKTA - Туристическое агентство в Латвии | Подбор туров и лучшие
@@ -50,7 +50,7 @@
             "@type": "Organization",
             "name": "LKTA",
             "url": "https://www.facebook.com/groups/1767613113355526/",
-            "logo": "./src/assets/logo.png",
+            "logo": "../src/assets/logo.png",
             "sameAs": [
               "https://www.facebook.com/groups/1767613113355526/",
               "https://wa.me/37129253635"
@@ -83,7 +83,7 @@
     <header class="header">
       <div class="container header__container">
         <a href="#top" class="header__logo">
-          <img src="./src/assets/logo.png" alt="LKTA" />
+          <img src="../src/assets/logo.png" alt="LKTA" />
           <span class="header__logo-text"
             >Latvijas Kultūras Tūrisma Aģentūra</span
           >
@@ -102,47 +102,26 @@
         </button>
 
         <nav class="header__nav" id="site-nav">
-          <div
-            class="header__mobile-controls"
-            role="group"
-            aria-label="Настройки интерфейса"
-          >
-            <div class="header__lang-mobile" aria-label="Переключение языка">
-              <a
-                class="header__lang-link header__lang-link--active"
-                href="./index.html"
-                >🇷🇺 RU</a
-              >
-              <a class="header__lang-link" href="./lv/index.html">🇱🇻 LV</a>
-            </div>
-            <button
-              class="header__music header__music--mobile"
-              type="button"
-              aria-label="Музыка"
-            >
-              🎵
-            </button>
+          <div class="header__lang-mobile" aria-label="Language switcher">
+            <a class="header__lang-link" href="../index.html">🇷🇺 RU</a>
+            <a class="header__lang-link header__lang-link--active" href="./index.html">🇱🇻 LV</a>
           </div>
           <a href="#about" class="header__link">О компании</a>
-          <a href="#offers" class="header__link">Предложения</a>
-          <a href="#how" class="header__link">Как работаем</a>
           <a href="#operators" class="header__link">Туроператоры</a>
-          <a href="#contacts" class="btn btn--small header__nav-cta"
-            >Связаться</a
-          >
+          <a href="#how" class="header__link">Как работаем</a>
+          <a href="#offers" class="header__link">Предложения</a>
+          <a href="#contacts" class="btn btn--small header__nav-cta">Связаться</a>
         </nav>
 
         <div class="header__lang" aria-label="Переключение языка">
-          <a
-            class="header__lang-link header__lang-link--active"
-            href="./index.html"
-            >🇷🇺 RU</a
-          >
-          <a class="header__lang-link" href="./lv/index.html">🇱🇻 LV</a>
+          <a class="header__lang-link" href="../index.html">🇷🇺 RU</a>
+          <a class="header__lang-link header__lang-link--active" href="./index.html">🇱🇻 LV</a>
         </div>
+
         <button class="header__music" type="button" aria-label="Музыка">
           🎵
         </button>
+
         <a href="#contacts" class="header__cta btn btn--small">Связаться</a>
       </div>
     </header>
@@ -191,15 +170,14 @@
             <h2 class="about__title">LKTA — туристическое агентство Латвии</h2>
 
             <p class="about__lead">
-              За каждым забронированным туром в Latvijas Kultūras Tūrisma
-              Aģentūra стоим мы — Юрий и Наталия, и наша команда профессионалов:
-              Татьяна, Диана, Оксана, Карина, Самир, Анджела и Виктор. Мы не
-              просто продаем путевки, мы помогаем вам создавать воспоминания.
-              Наш подход прост: мы работаем там, где удобно вам — в Facebook и
-              WhatsApp. Никаких формальностей, только честные рекомендации и
-              лучшие цены от 7 ведущих операторов. Статус лидера продаж в Латвии
-              2024 и 2025 годов — это прежде всего тысячи счастливых клиентов,
-              которые доверили нам свои мечты об отдыхе.
+              За каждым забронированным туром в LKTA стоим мы — Юрий и Наталия,
+              и наша команда профессионалов: Татьяна, Диана, Оксана, Самир,
+              Анджела и Виктор. Мы не просто продаем путевки, мы помогаем вам
+              создавать воспоминания. Наш подход прост: мы работаем там, где
+              удобно вам — в Facebook и WhatsApp. Никаких формальностей, только
+              честные рекомендации и лучшие цены от 7 ведущих операторов. Статус
+              лидера продаж в Латвии 2024 и 2025 годов — это прежде всего тысячи
+              счастливых клиентов, которые доверили нам свои мечты об отдыхе.
             </p>
 
             <ul class="about__list">
@@ -226,13 +204,13 @@
           <div class="about__media">
             <div class="about__mediaStack">
               <figure class="about__photo">
-                <img src="./src/assets/about.jpg" alt="Награждение LKTA" />
+                <img src="../src/assets/about.jpg" alt="Награждение LKTA" />
               </figure>
 
               <figure class="about__videoCard">
                 <video
                   class="about__video"
-                  src="./src/assets/reward.mp4"
+                  src="../src/assets/reward.mp4"
                   controls
                   playsinline
                   preload="metadata"
@@ -246,26 +224,135 @@
         </div>
       </section>
 
-      <section class="offers" id="offers">
-        <div class="container offers__container">
-          <p class="offers__kicker kicker">Facebook-группа</p>
-          <h2 class="offers__title">Актуальные предложения</h2>
-          <p class="offers__lead">
-            Последние публикации из
+      <section class="ops" id="operators">
+        <div class="container ops__container">
+          <p class="ops__kicker kicker">Туроператоры</p>
+          <h2 class="ops__title">Поиск туров у партнёров</h2>
+
+          <p class="ops__lead">
+            Нажмите на туроператора — откроется их поиск туров. Если не знаете,
+            с чего начать — напишите нам, и мы подберём вариант под ваш запрос.
+            Актуальные предложения также публикуем в
             <a
               href="https://www.facebook.com/groups/1767613113355526/?ref=share"
               target="_blank"
               rel="noopener noreferrer"
             >
-              нашей Facebook-группы</a
-            >.
+              нашей Facebook-группе
+            </a>
+            .
           </p>
 
-          <ul class="offers__list" data-offers-list>
-            <li class="offers__item offers__item--state">
-              Загрузка публикаций...
-            </li>
-          </ul>
+          <div class="ops__grid">
+            <a
+              class="op-card"
+              href="https://anextour.lv/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Открыть сайт ANEX Tour"
+            >
+              <div class="op-card__logo">
+                <img src="../src/assets/logos/anex.svg" alt="ANEX Tour" />
+              </div>
+              <h3 class="op-card__title">ANEX Tour</h3>
+              <span class="op-card__link">Открыть сайт</span>
+            </a>
+
+            <a
+              class="op-card"
+              href="https://www.itaka.lv/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Открыть сайт Itaka"
+            >
+              <div class="op-card__logo op-card__logo--itaka">
+                <img src="../src/assets/logos/itaka.png" alt="Itaka" />
+              </div>
+              <h3 class="op-card__title">Itaka</h3>
+              <span class="op-card__link">Открыть сайт</span>
+            </a>
+
+            <a
+              class="op-card"
+              href="https://interluxtravel.lv/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Открыть сайт Interlux Travel"
+            >
+              <div class="op-card__logo">
+                <img
+                  src="../src/assets/logos/interlux.png"
+                  alt="Interlux Travel"
+                />
+              </div>
+              <h3 class="op-card__title">Interlux Travel</h3>
+              <span class="op-card__link">Открыть сайт</span>
+            </a>
+
+            <a
+              class="op-card"
+              href="https://www.novatours.lv/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Открыть сайт Novatours"
+            >
+              <div class="op-card__logo">
+                <img src="../src/assets/logos/novatours.webp" alt="Novatours" />
+              </div>
+              <h3 class="op-card__title">Novatours</h3>
+              <span class="op-card__link">Открыть сайт</span>
+            </a>
+
+            <a
+              class="op-card"
+              href="https://www.teztour.lv/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Открыть сайт Tez Tour"
+            >
+              <div class="op-card__logo op-card__logo--teztour">
+                <img src="../src/assets/logos/teztour.png" alt="Tez Tour" />
+              </div>
+              <h3 class="op-card__title">Tez Tour</h3>
+              <span class="op-card__link">Открыть сайт</span>
+            </a>
+
+            <a
+              class="op-card"
+              href="https://www.coraltravel.lv/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Открыть сайт Coral Travel"
+            >
+              <div class="op-card__logo">
+                <img
+                  src="../src/assets/logos/coraltravel.svg"
+                  alt="Coral Travel"
+                />
+              </div>
+              <h3 class="op-card__title">Coral Travel</h3>
+              <span class="op-card__link">Открыть сайт</span>
+            </a>
+
+            <a
+              class="op-card"
+              href="https://joinup.lv/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Открыть сайт JoinUP"
+            >
+              <div class="op-card__logo">
+                <img src="../src/assets/logos/joinup.svg" alt="JoinUP" />
+              </div>
+              <h3 class="op-card__title">JoinUp</h3>
+              <span class="op-card__link">Открыть сайт</span>
+            </a>
+          </div>
+
+          <p class="ops__note">
+            * Поиск открывается на сайте туроператора. Если нужна помощь -
+            напишите нам в Facebook или WhatsApp.
+          </p>
         </div>
       </section>
 
@@ -308,170 +395,29 @@
               </div>
             </li>
           </ol>
-
-          <details class="how__details">
-            <summary class="how__summary">Подробнее</summary>
-            <div class="how__details-content">
-              <p>
-                После того как вы выбираете подходящий вариант, мы запрашиваем
-                данные для бронирования: имена и фамилии, даты рождения,
-                персональные коды, номер паспорта и срок его действия, а также
-                контактный телефон и e-mail.
-              </p>
-              <p>
-                Далее мы ставим временную бронь на сутки и отправляем вам
-                скриншот резервации в системе туроператора. Вы проверяете все
-                данные, после чего мы выписываем счёт на нашу фирму и отправляем
-                его на электронную почту и в мессенджер, где общались. Вы
-                оплачиваете первый взнос, а мы подтверждаем получение денег и
-                отправляем договор с туроператором.
-              </p>
-              <p>
-                Перед поездкой мы тщательно проверяем документы: для поездок за
-                пределы Евросоюза паспорт должен действовать не менее 6 месяцев
-                на дату возвращения, для стран Евросоюза - не менее 3 месяцев.
-                При необходимости предложим страховку и поможем с визой.
-              </p>
-              <p>
-                После полной оплаты мы отправляем подтверждение, затем присылаем
-                весь пакет документов: электронные билеты, ваучер на трансфер и
-                ваучер на отель. Вы отдыхаете, а мы остаёмся на связи до вашего
-                возвращения.
-              </p>
-            </div>
-          </details>
         </div>
       </section>
 
-      <section class="ops" id="operators">
-        <div class="container ops__container">
-          <p class="ops__kicker kicker">Туроператоры</p>
-          <h2 class="ops__title">Поиск туров у партнёров</h2>
-
-          <p class="ops__lead">
-            Нажмите на туроператора — откроется их поиск туров. Если не знаете,
-            с чего начать — напишите нам, и мы подберём вариант под ваш запрос.
-            Актуальные предложения также публикуем в
+      <section class="offers" id="offers">
+        <div class="container offers__container">
+          <p class="offers__kicker kicker">Facebook-группа</p>
+          <h2 class="offers__title">Актуальные предложения</h2>
+          <p class="offers__lead">
+            Последние публикации из
             <a
               href="https://www.facebook.com/groups/1767613113355526/?ref=share"
               target="_blank"
               rel="noopener noreferrer"
             >
-              нашей Facebook-группе
-            </a>
-            .
+              нашей Facebook-группы</a
+            >.
           </p>
 
-          <div class="ops__grid">
-            <a
-              class="op-card"
-              href="https://anextour.lv/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Открыть сайт ANEX Tour"
-            >
-              <div class="op-card__logo">
-                <img src="./src/assets/logos/anex.svg" alt="ANEX Tour" />
-              </div>
-              <h3 class="op-card__title">ANEX Tour</h3>
-              <span class="op-card__link">Открыть сайт</span>
-            </a>
-
-            <a
-              class="op-card"
-              href="https://www.itaka.lv/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Открыть сайт Itaka"
-            >
-              <div class="op-card__logo op-card__logo--itaka">
-                <img src="./src/assets/logos/itaka.png" alt="Itaka" />
-              </div>
-              <h3 class="op-card__title">Itaka</h3>
-              <span class="op-card__link">Открыть сайт</span>
-            </a>
-
-            <a
-              class="op-card"
-              href="https://interluxtravel.lv/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Открыть сайт Interlux Travel"
-            >
-              <div class="op-card__logo">
-                <img
-                  src="./src/assets/logos/interlux.png"
-                  alt="Interlux Travel"
-                />
-              </div>
-              <h3 class="op-card__title">Interlux Travel</h3>
-              <span class="op-card__link">Открыть сайт</span>
-            </a>
-
-            <a
-              class="op-card"
-              href="https://www.novatours.lv/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Открыть сайт Novatours"
-            >
-              <div class="op-card__logo">
-                <img src="./src/assets/logos/novatours.webp" alt="Novatours" />
-              </div>
-              <h3 class="op-card__title">Novatours</h3>
-              <span class="op-card__link">Открыть сайт</span>
-            </a>
-
-            <a
-              class="op-card"
-              href="https://www.teztour.lv/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Открыть сайт Tez Tour"
-            >
-              <div class="op-card__logo op-card__logo--teztour">
-                <img src="./src/assets/logos/teztour.png" alt="Tez Tour" />
-              </div>
-              <h3 class="op-card__title">Tez Tour</h3>
-              <span class="op-card__link">Открыть сайт</span>
-            </a>
-
-            <a
-              class="op-card"
-              href="https://www.coraltravel.lv/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Открыть сайт Coral Travel"
-            >
-              <div class="op-card__logo">
-                <img
-                  src="./src/assets/logos/coraltravel.svg"
-                  alt="Coral Travel"
-                />
-              </div>
-              <h3 class="op-card__title">Coral Travel</h3>
-              <span class="op-card__link">Открыть сайт</span>
-            </a>
-
-            <a
-              class="op-card"
-              href="https://joinup.lv/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Открыть сайт JoinUP"
-            >
-              <div class="op-card__logo">
-                <img src="./src/assets/logos/joinup.svg" alt="JoinUP" />
-              </div>
-              <h3 class="op-card__title">JoinUp</h3>
-              <span class="op-card__link">Открыть сайт</span>
-            </a>
-          </div>
-
-          <p class="ops__note">
-            * Поиск открывается на сайте туроператора. Если нужна помощь -
-            напишите нам в Facebook или WhatsApp.
-          </p>
+          <ul class="offers__list" data-offers-list>
+            <li class="offers__item offers__item--state">
+              Загрузка публикаций...
+            </li>
+          </ul>
         </div>
       </section>
 
@@ -515,11 +461,6 @@
                 </div>
 
                 <div class="contact__meta-row">
-                  <dt>Регистрационный номер</dt>
-                  <dd>Reg. Nr. 40203448378</dd>
-                </div>
-
-                <div class="contact__meta-row">
                   <dt>Лицензия</dt>
                   <dd>Nr. T-2023-38</dd>
                 </div>
@@ -557,7 +498,7 @@
             <div class="contact__media" aria-hidden="true">
               <img
                 class="contact__img"
-                src="./src/assets/contacts.jpg"
+                src="../src/assets/contacts.jpg"
                 alt=""
                 loading="lazy"
                 decoding="async"
@@ -577,7 +518,7 @@
             <a class="footer__logo" href="/" aria-label="LKTA — на главную">
               <img
                 class="footer__logo-img"
-                src="./src/assets/logo.png"
+                src="../src/assets/logo.png"
                 alt="LKTA"
                 width="120"
                 height="32"
@@ -615,9 +556,9 @@
 
           <nav class="footer__nav" aria-label="Навигация">
             <a class="footer__nav-link" href="#about">О компании</a>
-            <a class="footer__nav-link" href="#offers">Предложения</a>
-            <a class="footer__nav-link" href="#how">Как мы работаем</a>
             <a class="footer__nav-link" href="#operators">Туроператоры</a>
+            <a class="footer__nav-link" href="#how">Как мы работаем</a>
+            <a class="footer__nav-link" href="#offers">Предложения</a>
             <a class="footer__nav-link" href="#contacts">Контакты</a>
           </nav>
 
@@ -628,11 +569,6 @@
               <div class="footer__row">
                 <dt>Компания</dt>
                 <dd>LKTA - Latvijas Kultūras Tūrisma Aģentūra</dd>
-              </div>
-
-              <div class="footer__row">
-                <dt>Регистрационный номер</dt>
-                <dd>Reg. Nr. 40203448378</dd>
               </div>
 
               <div class="footer__row">

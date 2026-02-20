@@ -57,6 +57,8 @@
   }
 
   &__item-media {
+    position: relative;
+    display: grid;
     margin: 0;
     border-radius: $r-1;
     overflow: hidden;
@@ -69,6 +71,42 @@
     height: 100%;
     display: block;
     object-fit: cover;
+  }
+
+  &__item-media--placeholder {
+    align-content: end;
+    padding: $sp-4;
+    background:
+      radial-gradient(
+        circle at 80% 20%,
+        rgba(249, 115, 22, 0.18) 0%,
+        rgba(249, 115, 22, 0) 44%
+      ),
+      linear-gradient(140deg, #eef2ff 0%, #f8fafc 100%);
+    border: 1px solid $color-border;
+  }
+
+  &__item-media-label {
+    position: absolute;
+    top: $sp-3;
+    left: $sp-3;
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 9px;
+    border-radius: 999px;
+    font-size: $fs-xs;
+    color: $color-soft;
+    background: rgba(255, 255, 255, 0.86);
+    border: 1px solid $color-border;
+  }
+
+  &__item-media-text {
+    margin: 0;
+    max-width: 16ch;
+    color: $color-muted;
+    font-size: $fs-small;
+    font-weight: $fw-medium;
+    line-height: $lh-title;
   }
 
   &__item-body {

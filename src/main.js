@@ -130,7 +130,12 @@ const renderFeedItems = (container, items) => {
             <img class="offers__item-img" src="${item.image}" alt="${escapeHtml(title)}" loading="lazy" decoding="async" />
           </figure>
         `
-        : '';
+        : `
+          <figure class="offers__item-media offers__item-media--placeholder" aria-hidden="true">
+            <span class="offers__item-media-label">Facebook</span>
+            <p class="offers__item-media-text">В этом посте нет фото</p>
+          </figure>
+        `;
 
       return `
         <li class="offers__item">
