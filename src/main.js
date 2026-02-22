@@ -2,7 +2,8 @@ import './styles/main.scss';
 
 const RSS_URL = 'https://rss.app/feeds/UxVyPO87nsjfrw37.xml';
 const FEED_LIMIT = 4;
-const FB_GROUP_URL = 'https://www.facebook.com/groups/1767613113355526/?ref=share';
+const FB_GROUP_URL =
+  'https://www.facebook.com/groups/1767613113355526/?ref=share';
 const dateFormatter = new Intl.DateTimeFormat('ru-RU', {
   day: '2-digit',
   month: 'long',
@@ -28,12 +29,15 @@ const initHeaderMenu = () => {
   };
 
   burger.addEventListener('click', toggleMenu);
-  nav.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
+  nav
+    .querySelectorAll('a')
+    .forEach((link) => link.addEventListener('click', closeMenu));
 
   document.addEventListener('click', (event) => {
     const target = event.target;
     const isInsideMenu =
-      target instanceof Node && (burger.contains(target) || nav.contains(target));
+      target instanceof Node &&
+      (burger.contains(target) || nav.contains(target));
 
     if (header.classList.contains('header--menu-open') && !isInsideMenu) {
       closeMenu();
@@ -117,10 +121,15 @@ const renderFeedItems = (container, items) => {
   container.innerHTML = items
     .map((item) => {
       const title = truncate(stripHtml(item.title || 'Публикация'), 90);
-      const cleanDescription = removeDuplicateLead(stripHtml(item.description || ''), title);
+      const cleanDescription = removeDuplicateLead(
+        stripHtml(item.description || ''),
+        title,
+      );
       const description = truncate(cleanDescription, 170);
       const date = formatPubDate(item.pubDate);
-      const meta = date ? `<p class="offers__item-meta">${escapeHtml(date)}</p>` : '';
+      const meta = date
+        ? `<p class="offers__item-meta">${escapeHtml(date)}</p>`
+        : '';
       const text = description
         ? `<p class="offers__item-text">${escapeHtml(description)}</p>`
         : '';
@@ -183,7 +192,10 @@ const loadOffersFeed = async () => {
 
         const mediaImage =
           node.querySelector('media\\:content')?.getAttribute('url')?.trim() ||
-          node.querySelector('media\\:thumbnail')?.getAttribute('url')?.trim() ||
+          node
+            .querySelector('media\\:thumbnail')
+            ?.getAttribute('url')
+            ?.trim() ||
           node.querySelector('enclosure')?.getAttribute('url')?.trim() ||
           '';
 
@@ -191,11 +203,13 @@ const loadOffersFeed = async () => {
           title: node.querySelector('title')?.textContent?.trim() || '',
           link: normalizeUrl(
             node.querySelector('link')?.textContent?.trim(),
-            FB_GROUP_URL
+            FB_GROUP_URL,
           ),
           pubDate: node.querySelector('pubDate')?.textContent?.trim() || '',
           description: descriptionRaw,
-          image: normalizeUrl(mediaImage || extractFirstImageFromHtml(descriptionRaw)),
+          image: normalizeUrl(
+            mediaImage || extractFirstImageFromHtml(descriptionRaw),
+          ),
         };
       })
       .filter((item) => item.link)

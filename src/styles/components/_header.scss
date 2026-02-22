@@ -10,11 +10,24 @@
 }
 
 .header__container {
+  height: $header-h;
+}
+
+.header__top {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  height: $header-h;
+  padding-bottom: $sp-1;
+}
+
+.header__bottom {
+  width: 100%;
+}
+
+.header__desktop-actions {
+  display: flex;
+  align-items: center;
   gap: $sp-2;
+  margin-left: auto;
 }
 
 .header__logo-text {
@@ -172,7 +185,28 @@
   }
 }
 
-/* Маленькая кнопка */
+@media (min-width: ($tablet)) {
+  .header--two-level .header__container {
+    display: grid;
+    grid-template-rows: auto auto;
+    align-items: stretch;
+    height: auto;
+    gap: 0;
+    padding-top: $sp-2;
+  }
+
+  .header--two-level .header__bottom {
+    border-top: 1px solid $color-border;
+    padding: $sp-2 0;
+    padding-inline: $sp-2;
+  }
+
+  .header--two-level .header__nav {
+    margin-left: 0;
+    gap: $sp-5;
+  }
+}
+
 .btn--small {
   padding: 8px 14px;
   font-size: $fs-small;
@@ -181,6 +215,25 @@
 
 /* Мобилка */
 @media (max-width: $tablet) {
+  .header__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-inline: $sp-2;
+  }
+
+  .header__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding-bottom: 0;
+  }
+
+  .header__bottom {
+    width: auto;
+  }
+
   .header__logo-text {
     display: none;
   }
@@ -199,6 +252,7 @@
 
   .header__burger {
     display: block;
+    margin-left: auto;
     z-index: 2;
   }
 
