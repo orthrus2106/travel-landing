@@ -1,7 +1,8 @@
 import './styles/main.scss';
 
-const RSS_URL = 'https://rss.app/feeds/UxVyPO87nsjfrw37.xml';
-const FEED_LIMIT = 4;
+const RSS_URL = 'https://rss.app/feeds/j4k22ytnU3nz9ALB.xml';
+const FEED_LIMIT = 25;
+const FEED_PREVIEW_LIMIT = 4;
 const FB_GROUP_URL =
   'https://www.facebook.com/groups/1767613113355526/?ref=share';
 const dateFormatter = new Intl.DateTimeFormat('ru-RU', {
@@ -117,6 +118,31 @@ const renderFeedState = (container, message, withLink = false) => {
   container.innerHTML = `<li class="offers__item offers__item--state">${message}${link}</li>`;
 };
 
+const removeFeedMoreButton = (list) => {
+  const parent = list.parentElement;
+  if (!parent) return;
+
+  const button = parent.querySelector('[data-offers-more]');
+  if (button) button.remove();
+};
+
+const renderFeedMoreButton = (list, onClick) => {
+  const parent = list.parentElement;
+  if (!parent) return;
+
+  let button = parent.querySelector('[data-offers-more]');
+  if (!(button instanceof HTMLButtonElement)) {
+    button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'btn btn--ghost';
+    button.textContent = 'Смотреть больше';
+    button.setAttribute('data-offers-more', 'true');
+    parent.append(button);
+  }
+
+  button.onclick = onClick;
+};
+
 const renderFeedItems = (container, items) => {
   container.innerHTML = items
     .map((item) => {
@@ -222,12 +248,32 @@ const loadOffersFeed = async () => {
       .slice(0, FEED_LIMIT);
 
     if (items.length === 0) {
+      removeFeedMoreButton(list);
       renderFeedState(list, 'Пока нет публикаций в RSS.', true);
       return;
     }
 
-    renderFeedItems(list, items);
+    let isExpanded = false;
+    const renderVisibleItems = () => {
+      const visibleItems = isExpanded
+        ? items
+        : items.slice(0, FEED_PREVIEW_LIMIT);
+      renderFeedItems(list, visibleItems);
+
+      if (!isExpanded && items.length > FEED_PREVIEW_LIMIT) {
+        renderFeedMoreButton(list, () => {
+          isExpanded = true;
+          renderVisibleItems();
+        });
+        return;
+      }
+
+      removeFeedMoreButton(list);
+    };
+
+    renderVisibleItems();
   } catch {
+    removeFeedMoreButton(list);
     renderFeedState(list, 'Не удалось загрузить RSS.', true);
   }
 };

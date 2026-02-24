@@ -1,0 +1,151 @@
+@use '../variables' as *;
+
+.visas {
+  padding: $section-y 0;
+}
+
+.visas__container {
+  display: grid;
+  grid-template-columns: 1.12fr 0.88fr;
+  gap: $sp-8;
+  align-items: start;
+}
+
+.visas__kicker {
+  margin: 0;
+}
+
+.visas__title {
+  margin: 0;
+  font-size: $fs-h2;
+  line-height: $lh-tight;
+  color: $color-text;
+  margin-top: $sp-3;
+  margin-bottom: $sp-4;
+  text-wrap: balance;
+}
+
+.visas__media {
+  margin: 0;
+  overflow: hidden;
+  align-self: center;
+}
+
+.visas__img {
+  width: 100%;
+  display: block;
+  height: auto;
+  min-height: 360px;
+  object-fit: cover;
+  border-radius: $r-3;
+  border: 1px solid $color-border;
+  background: $color-surface-2;
+  box-shadow: $shadow-sm;
+}
+
+.visas__content {
+  display: grid;
+  gap: $sp-4;
+}
+
+.visas__lead,
+.visas__note {
+  margin: 0;
+  color: $color-text;
+  font-size: $fs-body;
+  line-height: $lh-body;
+  max-width: 58ch;
+}
+
+.visas__countries {
+  margin: 0;
+  color: $color-muted;
+}
+
+.visas__country-link {
+  color: $color-link;
+  font-weight: $fw-medium;
+  text-underline-offset: 2px;
+}
+
+.visas__country-link:focus-visible {
+  outline: 2px solid $color-focus;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.visas__list {
+  margin: 0;
+  padding-left: 1.2em;
+  color: $color-muted;
+  line-height: $lh-body;
+  display: grid;
+  gap: 6px;
+}
+
+.visas__accordion {
+  display: grid;
+  gap: $sp-3;
+  grid-column: 1 / -1;
+  max-width: 58ch;
+}
+
+.visas__item {
+  border: 1px solid $color-border;
+  border-radius: $r-2;
+  background: $color-surface;
+  overflow: clip;
+}
+
+.visas__summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 14px 16px;
+  line-height: $lh-title;
+  font-weight: $fw-medium;
+  color: $color-text;
+  user-select: none;
+}
+
+.visas__summary::-webkit-details-marker {
+  display: none;
+}
+
+.visas__summary::before {
+  content: '+';
+  margin-right: 10px;
+  color: $color-accent;
+}
+
+.visas__item[open] .visas__summary::before {
+  content: '−';
+}
+
+.visas__body {
+  border-top: 1px solid $color-border;
+  padding: 14px 16px 16px;
+  display: grid;
+  gap: 12px;
+}
+
+.visas__body p {
+  margin: 0;
+  color: $color-text;
+  line-height: $lh-body;
+}
+
+@media (max-width: $tablet) {
+  .visas__container {
+    grid-template-columns: 1fr;
+    gap: $sp-6;
+    align-items: center;
+  }
+
+  .visas__media {
+    min-height: 240px;
+  }
+
+  .visas__img {
+    min-height: 240px;
+  }
+}
