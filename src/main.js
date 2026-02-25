@@ -1,9 +1,13 @@
 import './styles/main.scss';
 import Swiper from 'swiper';
-import { A11y, Autoplay, Navigation, Pagination } from 'swiper/modules';
+import { A11y, Autoplay, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+
+const galleryAssetModules = import.meta.glob('./assets/gallery/**/*.{jpg,jpeg,png,webp}', {
+  eager: true,
+  import: 'default',
+});
 
 const RSS_URL = 'https://rss.app/feeds/j4k22ytnU3nz9ALB.xml';
 const FEED_LIMIT = 25;
@@ -20,10 +24,44 @@ const htmlParser = new DOMParser();
 const initGallerySlider = () => {
   const slider = document.querySelector('[data-gallery-slider]');
   if (!(slider instanceof HTMLElement)) return;
+  const track = slider.querySelector('.swiper-wrapper');
+  if (!(track instanceof HTMLElement)) return;
+
+  const isLv = window.location.pathname.startsWith('/lv/');
+  const langFolder = isLv ? '/gallery/lv/' : '/gallery/ru/';
+
+  const galleryUrls = Object.entries(galleryAssetModules)
+    .filter(([path]) => path.includes(langFolder))
+    .sort(([a], [b]) =>
+      a.localeCompare(b, undefined, {
+        numeric: true,
+        sensitivity: 'base',
+      }),
+    )
+    .map(([, url]) => String(url));
+
+  if (galleryUrls.length > 0) {
+    track.innerHTML = galleryUrls
+      .map(
+        (url, index) => `
+          <figure class="swiper-slide gallery__slide">
+            <img
+              class="gallery__img"
+              src="${url}"
+              alt="Галерея LKTA — фото ${index + 1}"
+              loading="lazy"
+              decoding="async"
+            />
+          </figure>
+        `,
+      )
+      .join('');
+  }
+
   const section = slider.closest('.gallery');
 
   new Swiper(slider, {
-    modules: [Navigation, Pagination, Autoplay, A11y],
+    modules: [Navigation, Autoplay, A11y],
     slidesPerView: 1.02,
     spaceBetween: 14,
     speed: 700,
@@ -37,10 +75,6 @@ const initGallerySlider = () => {
     navigation: {
       prevEl: section?.querySelector('[data-gallery-prev]') || null,
       nextEl: section?.querySelector('[data-gallery-next]') || null,
-    },
-    pagination: {
-      el: section?.querySelector('[data-gallery-pagination]') || null,
-      clickable: true,
     },
     breakpoints: {
       560: {
