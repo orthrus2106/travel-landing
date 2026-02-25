@@ -2,7 +2,7 @@
 
 .ops {
   padding: $section-y 0;
-  background-color: rgba($color-surface, 0.9);
+  background-color: $color-surface;
 
   &__container {
     display: grid;
@@ -49,7 +49,7 @@
 
   padding: $sp-5;
   border-radius: $r-2;
-  background: rgba($color-surface, 0.9);
+  background: $color-surface;
   border: 1px solid $color-border;
   text-decoration: none;
 

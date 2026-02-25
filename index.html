@@ -148,11 +148,11 @@
               </button>
             </div>
             <a href="#about" class="header__link">О компании</a>
+            <a href="#gallery" class="header__link">Галерея</a>
             <a href="#offers" class="header__link">Предложения</a>
             <a href="#how" class="header__link">Как работаем</a>
-            <a href="#visas" class="header__link">Визы</a>
-            <a href="#insurance" class="header__link">Страхования</a>
             <a href="#operators" class="header__link">Туроператоры</a>
+            <a href="#visas" class="header__link">Визы</a>
             <a href="#contacts" class="btn btn--small header__nav-cta"
               >Связаться</a
             >
@@ -256,6 +256,89 @@
                 </figcaption>
               </figure>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="gallery" id="gallery">
+        <div class="container gallery__container">
+          <p class="gallery__kicker kicker">Моменты отдыха</p>
+          <div class="gallery__head">
+            <h2 class="gallery__title">Атмосфера ваших будущих путешествий</h2>
+            <p class="gallery__lead">
+              Подборка фото с направлений, которые чаще всего выбирают наши
+              клиенты. Листайте, вдохновляйтесь и пишите нам за подбором тура.
+            </p>
+          </div>
+
+          <div class="swiper gallery__slider" data-gallery-slider>
+            <div class="swiper-wrapper">
+              <figure class="swiper-slide gallery__slide">
+                <img
+                  class="gallery__img"
+                  src="./src/assets/gallery/1.webp"
+                  alt="Курортный вид с бассейном на закате"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </figure>
+              <figure class="swiper-slide gallery__slide">
+                <img
+                  class="gallery__img"
+                  src="./src/assets/gallery/2.jpg"
+                  alt="Береговая линия и отели у моря"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </figure>
+              <figure class="swiper-slide gallery__slide">
+                <img
+                  class="gallery__img"
+                  src="./src/assets/gallery/3.jpg"
+                  alt="Панорамный вид на морской курорт"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </figure>
+              <figure class="swiper-slide gallery__slide">
+                <img
+                  class="gallery__img"
+                  src="./src/assets/gallery/4.jpg"
+                  alt="Отельный комплекс среди природы"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </figure>
+              <figure class="swiper-slide gallery__slide">
+                <img
+                  class="gallery__img"
+                  src="./src/assets/gallery/5.jpg"
+                  alt="Тропический отдых у моря"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </figure>
+            </div>
+          </div>
+
+          <div class="gallery__controls">
+            <button
+              class="gallery__btn gallery__btn--prev"
+              type="button"
+              data-gallery-prev
+              aria-label="Предыдущий слайд"
+            >
+              ‹
+            </button>
+            <div class="gallery__pagination" data-gallery-pagination></div>
+            <button
+              class="gallery__btn gallery__btn--next"
+              type="button"
+              data-gallery-next
+              aria-label="Следующий слайд"
+            >
+              ›
+            </button>
           </div>
         </div>
       </section>
@@ -551,16 +634,16 @@
                     рамках отдыха виза оплачивается повторно.
                   </li>
                   <li>
-                    При пребывании более 30 дней вылет возможен только из
-                    Каира регулярным рейсом после оплаты штрафа 30 USD.
+                    При пребывании более 30 дней вылет возможен только из Каира
+                    регулярным рейсом после оплаты штрафа 30 USD.
                   </li>
                   <li>
                     Паспорт на момент выезда из Египта должен действовать не
                     менее 6 месяцев.
                   </li>
                   <li>
-                    ID-карта не может использоваться вместо паспорта для
-                    поездки в Египет.
+                    ID-карта не может использоваться вместо паспорта для поездки
+                    в Египет.
                   </li>
                 </ul>
 

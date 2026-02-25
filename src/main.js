@@ -1,4 +1,9 @@
 import './styles/main.scss';
+import Swiper from 'swiper';
+import { A11y, Autoplay, Navigation, Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 const RSS_URL = 'https://rss.app/feeds/j4k22ytnU3nz9ALB.xml';
 const FEED_LIMIT = 25;
@@ -11,6 +16,48 @@ const dateFormatter = new Intl.DateTimeFormat('ru-RU', {
   year: 'numeric',
 });
 const htmlParser = new DOMParser();
+
+const initGallerySlider = () => {
+  const slider = document.querySelector('[data-gallery-slider]');
+  if (!(slider instanceof HTMLElement)) return;
+  const section = slider.closest('.gallery');
+
+  new Swiper(slider, {
+    modules: [Navigation, Pagination, Autoplay, A11y],
+    slidesPerView: 1.15,
+    spaceBetween: 14,
+    speed: 700,
+    loop: true,
+    grabCursor: true,
+    autoplay: {
+      delay: 3200,
+      disableOnInteraction: false,
+      pauseOnMouseEnter: true,
+    },
+    navigation: {
+      prevEl: section?.querySelector('[data-gallery-prev]') || null,
+      nextEl: section?.querySelector('[data-gallery-next]') || null,
+    },
+    pagination: {
+      el: section?.querySelector('[data-gallery-pagination]') || null,
+      clickable: true,
+    },
+    breakpoints: {
+      560: {
+        slidesPerView: 1.45,
+        spaceBetween: 16,
+      },
+      768: {
+        slidesPerView: 2.05,
+        spaceBetween: 18,
+      },
+      1080: {
+        slidesPerView: 2.6,
+        spaceBetween: 22,
+      },
+    },
+  });
+};
 
 const initHeaderMenu = () => {
   const header = document.querySelector('.header');
@@ -126,7 +173,7 @@ const removeFeedMoreButton = (list) => {
   if (button) button.remove();
 };
 
-const renderFeedMoreButton = (list, onClick) => {
+const renderFeedToggleButton = (list, label, onClick) => {
   const parent = list.parentElement;
   if (!parent) return;
 
@@ -135,11 +182,11 @@ const renderFeedMoreButton = (list, onClick) => {
     button = document.createElement('button');
     button.type = 'button';
     button.className = 'btn btn--ghost';
-    button.textContent = 'Смотреть больше';
     button.setAttribute('data-offers-more', 'true');
     parent.append(button);
   }
 
+  button.textContent = label;
   button.onclick = onClick;
 };
 
@@ -260,11 +307,15 @@ const loadOffersFeed = async () => {
         : items.slice(0, FEED_PREVIEW_LIMIT);
       renderFeedItems(list, visibleItems);
 
-      if (!isExpanded && items.length > FEED_PREVIEW_LIMIT) {
-        renderFeedMoreButton(list, () => {
-          isExpanded = true;
-          renderVisibleItems();
-        });
+      if (items.length > FEED_PREVIEW_LIMIT) {
+        renderFeedToggleButton(
+          list,
+          isExpanded ? 'Свернуть' : 'Смотреть больше',
+          () => {
+            isExpanded = !isExpanded;
+            renderVisibleItems();
+          },
+        );
         return;
       }
 
@@ -279,5 +330,6 @@ const loadOffersFeed = async () => {
 };
 
 initHeaderMenu();
+initGallerySlider();
 setCurrentYear();
 loadOffersFeed();

@@ -1,0 +1,141 @@
+@use '../variables' as *;
+
+.gallery {
+  padding: $section-y 0;
+  background-color: rgba($color-surface, 0.9);
+}
+
+.gallery__container {
+  display: grid;
+  gap: $sp-5;
+}
+
+.gallery__head {
+  display: grid;
+  gap: $sp-3;
+}
+
+.gallery__title {
+  margin: 0;
+  max-width: 18ch;
+  line-height: $lh-tight;
+}
+
+.gallery__lead {
+  margin: 0;
+  max-width: 62ch;
+  color: $color-muted;
+  line-height: $lh-body;
+}
+
+.gallery__slider {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.gallery__slider .swiper-wrapper {
+  align-items: stretch;
+}
+
+.gallery__slider .swiper-slide {
+  height: auto;
+}
+
+.gallery__slider:not(.swiper-initialized) .swiper-wrapper {
+  display: flex;
+  gap: $sp-3;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 6px;
+}
+
+.gallery__slider:not(.swiper-initialized) .swiper-slide {
+  flex: 0 0 min(82vw, 420px);
+  scroll-snap-align: start;
+}
+
+.gallery__slide {
+  margin: 0;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid $color-border;
+  background: $color-surface;
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+}
+
+.gallery__img {
+  width: 100%;
+  display: block;
+  height: clamp(220px, 28vw, 360px);
+  object-fit: cover;
+}
+
+.gallery__controls {
+  margin-top: $sp-4;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: $sp-3;
+  align-items: center;
+}
+
+.gallery__btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  border: 1px solid $color-border;
+  background: $color-surface;
+  color: $color-text;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    border-color $transition,
+    background-color $transition,
+    transform $transition;
+}
+
+.gallery__btn:hover {
+  border-color: rgba($color-accent, 0.4);
+  background: rgba($color-accent, 0.08);
+  transform: translateY(-1px);
+}
+
+.gallery__btn:focus-visible {
+  outline: 2px solid $color-focus;
+  outline-offset: 3px;
+}
+
+.gallery__pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.gallery__pagination .swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  margin: 0 !important;
+  background: rgba($color-text, 0.22);
+  opacity: 1;
+}
+
+.gallery__pagination .swiper-pagination-bullet-active {
+  background: $color-accent;
+}
+
+@media (max-width: $tablet) {
+  .gallery__title {
+    max-width: 100%;
+  }
+
+  .gallery__controls {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .gallery__btn {
+    display: none;
+  }
+}
