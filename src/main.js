@@ -24,7 +24,7 @@ const initGallerySlider = () => {
 
   new Swiper(slider, {
     modules: [Navigation, Pagination, Autoplay, A11y],
-    slidesPerView: 1.15,
+    slidesPerView: 1.02,
     spaceBetween: 14,
     speed: 700,
     loop: true,
@@ -44,16 +44,20 @@ const initGallerySlider = () => {
     },
     breakpoints: {
       560: {
-        slidesPerView: 1.45,
+        slidesPerView: 1.22,
         spaceBetween: 16,
       },
       768: {
-        slidesPerView: 2.05,
+        slidesPerView: 1.6,
         spaceBetween: 18,
       },
       1080: {
-        slidesPerView: 2.6,
+        slidesPerView: 2.15,
         spaceBetween: 22,
+      },
+      1400: {
+        slidesPerView: 2.35,
+        spaceBetween: 24,
       },
     },
   });

@@ -57,6 +57,8 @@
 
 .gallery__slide {
   margin: 0;
+  aspect-ratio: 16 / 9;
+  height: auto;
   border-radius: 20px;
   overflow: hidden;
   border: 1px solid $color-border;
@@ -67,8 +69,9 @@
 .gallery__img {
   width: 100%;
   display: block;
-  height: clamp(220px, 28vw, 360px);
+  height: 100%;
   object-fit: cover;
+  object-position: center;
 }
 
 .gallery__controls {
