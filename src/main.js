@@ -4,10 +4,13 @@ import { A11y, Autoplay, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 
-const galleryAssetModules = import.meta.glob('./assets/gallery/**/*.{jpg,jpeg,png,webp}', {
-  eager: true,
-  import: 'default',
-});
+const galleryAssetModules = import.meta.glob(
+  './assets/gallery/**/*.{jpg,jpeg,png,webp}',
+  {
+    eager: true,
+    import: 'default',
+  },
+);
 
 const RSS_URL = 'https://rss.app/feeds/j4k22ytnU3nz9ALB.xml';
 const FEED_LIMIT = 25;
@@ -62,7 +65,7 @@ const initGallerySlider = () => {
 
   new Swiper(slider, {
     modules: [Navigation, Autoplay, A11y],
-    slidesPerView: 1.02,
+    slidesPerView: 1,
     spaceBetween: 14,
     speed: 700,
     loop: true,
@@ -90,7 +93,7 @@ const initGallerySlider = () => {
         spaceBetween: 22,
       },
       1400: {
-        slidesPerView: 2.35,
+        slidesPerView: 2.3,
         spaceBetween: 24,
       },
     },
