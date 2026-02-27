@@ -169,9 +169,10 @@
     margin: 0;
     color: $color-muted;
     line-height: $lh-body;
+    white-space: pre-line;
     display: -webkit-box;
     overflow: hidden;
-    -webkit-line-clamp: 4;
+    -webkit-line-clamp: 8;
     -webkit-box-orient: vertical;
   }
 

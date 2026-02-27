@@ -1,7 +1,14 @@
 import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
 
-import { cloudflare } from "@cloudflare/vite-plugin";
+let cloudflarePlugin = null;
+
+try {
+  const { cloudflare } = await import('@cloudflare/vite-plugin');
+  cloudflarePlugin = cloudflare();
+} catch {
+  // Optional in local/dev environments where npm registry access is unavailable.
+}
 
 export default defineConfig({
   build: {
@@ -12,5 +19,5 @@ export default defineConfig({
       },
     },
   },
-  plugins: [cloudflare()],
+  plugins: cloudflarePlugin ? [cloudflarePlugin] : [],
 });

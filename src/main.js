@@ -12,7 +12,7 @@ const galleryAssetModules = import.meta.glob(
   },
 );
 
-const RSS_URL = 'https://rss.app/feeds/j4k22ytnU3nz9ALB.xml';
+const RSS_URL = 'https://rss.app/feeds/j4k22ytnU3nz9ALB.json';
 const FEED_LIMIT = 25;
 const FEED_PREVIEW_LIMIT = 4;
 const FB_GROUP_URL =
@@ -27,7 +27,9 @@ const t = {
   feedDefaultTitle: isRu ? 'Публикация' : 'Publikācija',
   feedReadPost: isRu ? 'Читать пост' : 'Lasīt ierakstu',
   feedNoPhoto: isRu ? 'В этом посте нет фото' : 'Šajā ierakstā nav foto',
-  feedEmpty: isRu ? 'Пока нет публикаций в RSS.' : 'RSS pagaidām nav publikāciju.',
+  feedEmpty: isRu
+    ? 'Пока нет публикаций в RSS.'
+    : 'RSS pagaidām nav publikāciju.',
   feedCollapse: isRu ? 'Свернуть' : 'Rādīt mazāk',
   feedExpand: isRu ? 'Смотреть больше' : 'Skatīt vairāk',
   feedError: isRu ? 'Не удалось загрузить RSS.' : 'Neizdevās ielādēt RSS.',
@@ -156,8 +158,17 @@ const setCurrentYear = () => {
 };
 
 const stripHtml = (html) => {
-  const doc = htmlParser.parseFromString(html, 'text/html');
-  return doc.body.textContent?.trim() || '';
+  const normalizedHtml = html
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<\/(p|div|li|h1|h2|h3|h4|h5|h6)>/gi, '\n');
+  const doc = htmlParser.parseFromString(normalizedHtml, 'text/html');
+  return (
+    doc.body.textContent
+      ?.replace(/\u00a0/g, ' ')
+      .replace(/[ \t]+\n/g, '\n')
+      .replace(/\n{2,}/g, '\n')
+      .trim() || ''
+  );
 };
 
 const extractFirstImageFromHtml = (html) => {
@@ -193,18 +204,25 @@ const normalizeUrl = (value, fallback = '') => {
 };
 
 const removeDuplicateLead = (description, title) => {
-  const normalizedDescription = normalizeText(description);
+  const lines = description
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean);
+  if (lines.length === 0) return description;
+
+  const normalizedDescription = normalizeText(lines[0]);
   const normalizedTitle = normalizeText(title);
 
-  if (!normalizedTitle || !normalizedDescription.startsWith(normalizedTitle)) {
+  if (
+    !normalizedTitle ||
+    (!normalizedDescription.startsWith(normalizedTitle) &&
+      !normalizedTitle.startsWith(normalizedDescription))
+  ) {
     return description;
   }
 
-  const withoutFirstSentence = description
-    .replace(/^[^\n.!?]*[\n.!?]\s*/u, '')
-    .trim();
-
-  return withoutFirstSentence || description;
+  const withoutFirstLine = lines.slice(1).join('\n').trim();
+  return withoutFirstLine || description;
 };
 
 const formatPubDate = (dateString) => {
@@ -253,7 +271,7 @@ const renderFeedItems = (container, items) => {
         stripHtml(item.description || ''),
         title,
       );
-      const description = truncate(cleanDescription, 170);
+      const description = truncate(cleanDescription, 320);
       const date = formatPubDate(item.pubDate);
       const meta = date
         ? `<p class="offers__item-meta">${escapeHtml(date)}</p>`
@@ -302,49 +320,44 @@ const loadOffersFeed = async () => {
       throw new Error(`HTTP ${response.status}`);
     }
 
-    const xmlText = await response.text();
-    const xmlDoc = htmlParser.parseFromString(xmlText, 'application/xml');
-
-    if (xmlDoc.querySelector('parsererror')) {
-      throw new Error('Invalid RSS XML');
-    }
+    const feedJson = await response.json();
+    const sourceItems = Array.isArray(feedJson?.items) ? feedJson.items : [];
 
     const seen = new Set();
-
-    const items = Array.from(xmlDoc.querySelectorAll('item'))
-      .map((node) => {
+    const items = sourceItems
+      .map((item) => {
+        const contentHtml = typeof item?.content_html === 'string'
+          ? item.content_html.trim()
+          : '';
+        const contentText = typeof item?.content_text === 'string'
+          ? item.content_text.trim()
+          : '';
         const descriptionRaw =
-          node.querySelector('description')?.textContent?.trim() ||
-          node.querySelector('content\\:encoded')?.textContent?.trim() ||
+          (contentHtml.length > contentText.length ? contentHtml : contentText) ||
           '';
-
-        const mediaImage =
-          node.querySelector('media\\:content')?.getAttribute('url')?.trim() ||
-          node
-            .querySelector('media\\:thumbnail')
-            ?.getAttribute('url')
-            ?.trim() ||
-          node.querySelector('enclosure')?.getAttribute('url')?.trim() ||
-          '';
+        const link = normalizeUrl(
+          typeof item?.url === 'string' ? item.url.trim() : '',
+          FB_GROUP_URL,
+        );
 
         return {
-          title: node.querySelector('title')?.textContent?.trim() || '',
-          link: normalizeUrl(
-            node.querySelector('link')?.textContent?.trim(),
-            FB_GROUP_URL,
-          ),
-          pubDate: node.querySelector('pubDate')?.textContent?.trim() || '',
+          title:
+            typeof item?.title === 'string' && item.title.trim()
+              ? item.title.trim()
+              : '',
+          link,
+          pubDate:
+            typeof item?.date_published === 'string'
+              ? item.date_published.trim()
+              : '',
           description: descriptionRaw,
-          image: normalizeUrl(
-            mediaImage || extractFirstImageFromHtml(descriptionRaw),
-          ),
+          image: extractFirstImageFromHtml(contentHtml),
         };
       })
       .filter((item) => item.link)
       .filter((item) => {
-        const key = normalizeText(item.title || item.link);
-        if (seen.has(key)) return false;
-        seen.add(key);
+        if (seen.has(item.link)) return false;
+        seen.add(item.link);
         return true;
       })
       .slice(0, FEED_LIMIT);
