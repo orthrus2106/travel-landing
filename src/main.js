@@ -17,7 +17,22 @@ const FEED_LIMIT = 25;
 const FEED_PREVIEW_LIMIT = 4;
 const FB_GROUP_URL =
   'https://www.facebook.com/groups/1767613113355526/?ref=share';
-const dateFormatter = new Intl.DateTimeFormat('ru-RU', {
+const isRu =
+  document.documentElement.lang.toLowerCase().startsWith('ru') ||
+  window.location.pathname.startsWith('/ru/');
+const locale = isRu ? 'ru-RU' : 'lv-LV';
+const t = {
+  galleryAltPrefix: isRu ? 'Галерея LKTA — фото' : 'LKTA galerija — foto',
+  openGroup: isRu ? 'Открыть группу' : 'Atvērt grupu',
+  feedDefaultTitle: isRu ? 'Публикация' : 'Publikācija',
+  feedReadPost: isRu ? 'Читать пост' : 'Lasīt ierakstu',
+  feedNoPhoto: isRu ? 'В этом посте нет фото' : 'Šajā ierakstā nav foto',
+  feedEmpty: isRu ? 'Пока нет публикаций в RSS.' : 'RSS pagaidām nav publikāciju.',
+  feedCollapse: isRu ? 'Свернуть' : 'Rādīt mazāk',
+  feedExpand: isRu ? 'Смотреть больше' : 'Skatīt vairāk',
+  feedError: isRu ? 'Не удалось загрузить RSS.' : 'Neizdevās ielādēt RSS.',
+};
+const dateFormatter = new Intl.DateTimeFormat(locale, {
   day: '2-digit',
   month: 'long',
   year: 'numeric',
@@ -30,8 +45,7 @@ const initGallerySlider = () => {
   const track = slider.querySelector('.swiper-wrapper');
   if (!(track instanceof HTMLElement)) return;
 
-  const isLv = window.location.pathname.startsWith('/lv/');
-  const langFolder = isLv ? '/gallery/lv/' : '/gallery/ru/';
+  const langFolder = isRu ? '/gallery/ru/' : '/gallery/lv/';
 
   const galleryUrls = Object.entries(galleryAssetModules)
     .filter(([path]) => path.includes(langFolder))
@@ -51,7 +65,7 @@ const initGallerySlider = () => {
             <img
               class="gallery__img"
               src="${url}"
-              alt="Галерея LKTA — фото ${index + 1}"
+              alt="${t.galleryAltPrefix} ${index + 1}"
               loading="lazy"
               decoding="async"
             />
@@ -201,7 +215,7 @@ const formatPubDate = (dateString) => {
 
 const renderFeedState = (container, message, withLink = false) => {
   const link = withLink
-    ? ` <a class="offers__item-link" href="${FB_GROUP_URL}" target="_blank" rel="noopener noreferrer">Открыть группу</a>`
+    ? ` <a class="offers__item-link" href="${FB_GROUP_URL}" target="_blank" rel="noopener noreferrer">${t.openGroup}</a>`
     : '';
   container.innerHTML = `<li class="offers__item offers__item--state">${message}${link}</li>`;
 };
@@ -234,7 +248,7 @@ const renderFeedToggleButton = (list, label, onClick) => {
 const renderFeedItems = (container, items) => {
   container.innerHTML = items
     .map((item) => {
-      const title = truncate(stripHtml(item.title || 'Публикация'), 90);
+      const title = truncate(stripHtml(item.title || t.feedDefaultTitle), 90);
       const cleanDescription = removeDuplicateLead(
         stripHtml(item.description || ''),
         title,
@@ -256,7 +270,7 @@ const renderFeedItems = (container, items) => {
         : `
           <figure class="offers__item-media offers__item-media--placeholder" aria-hidden="true">
             <span class="offers__item-media-label">Facebook</span>
-            <p class="offers__item-media-text">В этом посте нет фото</p>
+            <p class="offers__item-media-text">${t.feedNoPhoto}</p>
           </figure>
         `;
 
@@ -271,7 +285,7 @@ const renderFeedItems = (container, items) => {
             <h3 class="offers__item-title">${escapeHtml(title)}</h3>
             ${text}
           </div>
-          <a class="offers__item-cta" href="${item.link}" target="_blank" rel="noopener noreferrer">Читать пост</a>
+          <a class="offers__item-cta" href="${item.link}" target="_blank" rel="noopener noreferrer">${t.feedReadPost}</a>
         </li>
       `;
     })
@@ -337,7 +351,7 @@ const loadOffersFeed = async () => {
 
     if (items.length === 0) {
       removeFeedMoreButton(list);
-      renderFeedState(list, 'Пока нет публикаций в RSS.', true);
+      renderFeedState(list, t.feedEmpty, true);
       return;
     }
 
@@ -351,7 +365,7 @@ const loadOffersFeed = async () => {
       if (items.length > FEED_PREVIEW_LIMIT) {
         renderFeedToggleButton(
           list,
-          isExpanded ? 'Свернуть' : 'Смотреть больше',
+          isExpanded ? t.feedCollapse : t.feedExpand,
           () => {
             isExpanded = !isExpanded;
             renderVisibleItems();
@@ -366,7 +380,7 @@ const loadOffersFeed = async () => {
     renderVisibleItems();
   } catch {
     removeFeedMoreButton(list);
-    renderFeedState(list, 'Не удалось загрузить RSS.', true);
+    renderFeedState(list, t.feedError, true);
   }
 };
 
