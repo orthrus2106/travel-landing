@@ -3,6 +3,7 @@ import Swiper from 'swiper';
 import { A11y, Autoplay, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
+import radioTrack from './assets/audio/radio.mp3';
 
 const galleryAssetModules = import.meta.glob(
   './assets/gallery/**/*.{jpg,jpeg,png,webp}',
@@ -148,6 +149,47 @@ const initHeaderMenu = () => {
       closeMenu();
     }
   });
+};
+
+const initHeaderMusic = () => {
+  const musicButtons = Array.from(document.querySelectorAll('.header__music'));
+  if (musicButtons.length === 0) return;
+
+  const player = new Audio(radioTrack);
+  player.loop = true;
+  player.preload = 'none';
+
+  const syncState = () => {
+    const isPlaying = !player.paused && !player.ended;
+    musicButtons.forEach((button) => {
+      button.classList.toggle('header__music--active', isPlaying);
+      button.setAttribute('aria-pressed', isPlaying ? 'true' : 'false');
+    });
+  };
+
+  const togglePlayback = async () => {
+    if (!player.paused) {
+      player.pause();
+      syncState();
+      return;
+    }
+
+    try {
+      await player.play();
+    } catch {
+      // Playback can be blocked by browser policies.
+    }
+    syncState();
+  };
+
+  musicButtons.forEach((button) => {
+    button.setAttribute('aria-pressed', 'false');
+    button.addEventListener('click', togglePlayback);
+  });
+
+  player.addEventListener('play', syncState);
+  player.addEventListener('pause', syncState);
+  player.addEventListener('ended', syncState);
 };
 
 const setCurrentYear = () => {
@@ -398,6 +440,7 @@ const loadOffersFeed = async () => {
 };
 
 initHeaderMenu();
+initHeaderMusic();
 initGallerySlider();
 setCurrentYear();
 loadOffersFeed();

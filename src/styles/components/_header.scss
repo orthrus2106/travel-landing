@@ -136,6 +136,12 @@
     }
   }
 
+  &__music--active {
+    background: rgba($color-accent, 0.14);
+    border-color: rgba($color-accent, 0.45);
+    color: $color-accent-2;
+  }
+
   &__cta {
     white-space: nowrap;
   }
