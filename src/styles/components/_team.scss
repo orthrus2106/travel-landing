@@ -131,6 +131,46 @@
   &__meta-value a:hover {
     color: $color-accent;
   }
+
+  &--samir {
+    order: 1;
+  }
+
+  &--jurijs {
+    order: 2;
+  }
+
+  &--natalja {
+    order: 3;
+  }
+
+  &--tatjana {
+    order: 4;
+  }
+
+  &--anjela {
+    order: 5;
+  }
+
+  &--viktor {
+    order: 6;
+  }
+
+  &--diana {
+    order: 7;
+  }
+
+  &--oksana {
+    order: 8;
+  }
+
+  &--karina {
+    order: 9;
+  }
+
+  &--zanna {
+    order: 10;
+  }
 }
 
 @media (min-width: 640px) {
