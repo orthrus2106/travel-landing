@@ -3,7 +3,7 @@
 .hero {
   position: relative;
   overflow: hidden;
-  background: url('../../assets/hero.jpg') no-repeat;
+  background: url('../../assets/hero.webp') no-repeat;
   background-size: cover;
   background-position: center 60%;
   padding: calc(#{$header-h} + #{$section-y-sm}) 0 $section-y;

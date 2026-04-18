@@ -6,7 +6,7 @@ import 'swiper/css/navigation';
 import radioTrack from './assets/audio/radio.mp3';
 
 const galleryAssetModules = import.meta.glob(
-  './assets/gallery/**/*.{jpg,jpeg,png,webp}',
+  './assets/gallery/**/*.webp',
   {
     eager: true,
     import: 'default',
@@ -439,8 +439,79 @@ const loadOffersFeed = async () => {
   }
 };
 
+const initPrivileges = () => {
+  const triggers = Array.from(
+    document.querySelectorAll('[data-privilege-trigger]'),
+  );
+  const panel = document.querySelector('#privilege-panel');
+  const titleNode = document.querySelector('[data-privilege-title]');
+  const percentNode = document.querySelector('[data-privilege-percent]');
+  const tripsNode = document.querySelector('[data-privilege-trips]');
+  const descriptionNode = document.querySelector('[data-privilege-description]');
+  const noteNode = document.querySelector('[data-privilege-note]');
+
+  if (
+    triggers.length === 0 ||
+    !(panel instanceof HTMLElement) ||
+    !(percentNode instanceof HTMLElement) ||
+    !(tripsNode instanceof HTMLElement) ||
+    !(descriptionNode instanceof HTMLElement) ||
+    !(noteNode instanceof HTMLElement)
+  ) {
+    return;
+  }
+
+  const setActiveTrigger = (trigger) => {
+    triggers.forEach((item) => {
+      const isActive = item === trigger;
+      item.classList.toggle('is-active', isActive);
+      item.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      item.setAttribute('tabindex', isActive ? '0' : '-1');
+    });
+
+    const title = trigger.dataset.title?.trim() || '';
+    const percent = trigger.dataset.percent?.trim() || '';
+    const trips = trigger.dataset.trips?.trim() || '';
+    const description = trigger.dataset.description?.trim() || '';
+    const note = trigger.dataset.note?.trim() || '';
+
+    if (titleNode instanceof HTMLElement) {
+      titleNode.textContent = title;
+    }
+    percentNode.textContent = percent;
+    tripsNode.textContent = trips;
+    descriptionNode.textContent = description;
+    noteNode.textContent = note;
+    panel.setAttribute('aria-labelledby', trigger.id);
+  };
+
+  triggers.forEach((trigger, index) => {
+    trigger.setAttribute('tabindex', index === 0 ? '0' : '-1');
+
+    trigger.addEventListener('click', () => {
+      setActiveTrigger(trigger);
+    });
+
+    trigger.addEventListener('keydown', (event) => {
+      if (!['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp'].includes(event.key)) {
+        return;
+      }
+
+      event.preventDefault();
+      const direction = ['ArrowRight', 'ArrowDown'].includes(event.key) ? 1 : -1;
+      const nextIndex = (triggers.indexOf(trigger) + direction + triggers.length) % triggers.length;
+      const nextTrigger = triggers[nextIndex];
+      nextTrigger.focus();
+      setActiveTrigger(nextTrigger);
+    });
+  });
+
+  setActiveTrigger(triggers[0]);
+};
+
 initHeaderMenu();
 initHeaderMusic();
 initGallerySlider();
+initPrivileges();
 setCurrentYear();
 loadOffersFeed();
