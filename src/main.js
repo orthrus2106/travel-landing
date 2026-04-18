@@ -1,8 +1,4 @@
 import './styles/main.scss';
-import Swiper from 'swiper';
-import { A11y, Autoplay, Navigation } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/navigation';
 import radioTrack from './assets/audio/radio.mp3';
 
 const galleryAssetModules = import.meta.glob(
@@ -45,7 +41,7 @@ const htmlParser = new DOMParser();
 const initGallerySlider = () => {
   const slider = document.querySelector('[data-gallery-slider]');
   if (!(slider instanceof HTMLElement)) return;
-  const track = slider.querySelector('.swiper-wrapper');
+  const track = slider.querySelector('.gallery__track');
   if (!(track instanceof HTMLElement)) return;
 
   const langFolder = isRu ? '/gallery/ru/' : '/gallery/lv/';
@@ -64,7 +60,7 @@ const initGallerySlider = () => {
     track.innerHTML = galleryUrls
       .map(
         (url, index) => `
-          <figure class="swiper-slide gallery__slide">
+          <figure class="gallery__slide">
             <img
               class="gallery__img"
               src="${url}"
@@ -79,42 +75,52 @@ const initGallerySlider = () => {
   }
 
   const section = slider.closest('.gallery');
+  const prevButton = section?.querySelector('[data-gallery-prev]');
+  const nextButton = section?.querySelector('[data-gallery-next]');
+  const getSlides = () => Array.from(track.querySelectorAll('.gallery__slide'));
+  const getGap = () => parseFloat(getComputedStyle(track).columnGap) || 0;
+  let autoplayTimer = 0;
 
-  new Swiper(slider, {
-    modules: [Navigation, Autoplay, A11y],
-    slidesPerView: 1,
-    spaceBetween: 14,
-    speed: 700,
-    loop: true,
-    grabCursor: true,
-    autoplay: {
-      delay: 3200,
-      disableOnInteraction: false,
-      pauseOnMouseEnter: true,
-    },
-    navigation: {
-      prevEl: section?.querySelector('[data-gallery-prev]') || null,
-      nextEl: section?.querySelector('[data-gallery-next]') || null,
-    },
-    breakpoints: {
-      560: {
-        slidesPerView: 1.22,
-        spaceBetween: 16,
-      },
-      768: {
-        slidesPerView: 1.6,
-        spaceBetween: 18,
-      },
-      1080: {
-        slidesPerView: 2.15,
-        spaceBetween: 22,
-      },
-      1400: {
-        slidesPerView: 2.3,
-        spaceBetween: 24,
-      },
-    },
-  });
+  const scrollBySlide = (direction = 1) => {
+    const firstSlide = track.querySelector('.gallery__slide');
+    if (!(firstSlide instanceof HTMLElement)) return;
+
+    const maxScroll = track.scrollWidth - track.clientWidth;
+    const step = firstSlide.getBoundingClientRect().width + getGap();
+    const nextLeft = track.scrollLeft + step * direction;
+    const shouldLoopForward = direction > 0 && nextLeft >= maxScroll - 2;
+    const shouldLoopBackward = direction < 0 && nextLeft <= 2;
+
+    track.scrollTo({
+      left: shouldLoopForward ? 0 : shouldLoopBackward ? maxScroll : nextLeft,
+      behavior: 'smooth',
+    });
+  };
+
+  const startAutoplay = () => {
+    if (autoplayTimer || getSlides().length < 2) return;
+    autoplayTimer = window.setInterval(() => scrollBySlide(1), 3200);
+  };
+
+  const stopAutoplay = () => {
+    window.clearInterval(autoplayTimer);
+    autoplayTimer = 0;
+  };
+
+  if (prevButton instanceof HTMLButtonElement) {
+    prevButton.addEventListener('click', () => scrollBySlide(-1));
+  }
+
+  if (nextButton instanceof HTMLButtonElement) {
+    nextButton.addEventListener('click', () => scrollBySlide(1));
+  }
+
+  slider.addEventListener('pointerenter', stopAutoplay);
+  slider.addEventListener('pointerleave', startAutoplay);
+  slider.addEventListener('focusin', stopAutoplay);
+  slider.addEventListener('focusout', startAutoplay);
+
+  startAutoplay();
 };
 
 const initHeaderMenu = () => {
