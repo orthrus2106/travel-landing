@@ -6,9 +6,9 @@
 
 .about__container {
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
+  grid-template-columns: minmax(0, 1fr) minmax(420px, 0.96fr);
   gap: $sp-8;
-  align-items: center;
+  align-items: start;
 }
 
 .about__title {
@@ -25,7 +25,6 @@
   max-width: 58ch;
 }
 
-/* Proof block — спокойно и “по-взрослому” */
 .about__proof {
   margin: 0 0 $sp-6;
   padding: $sp-4 $sp-5;
@@ -130,57 +129,77 @@
 
 /* Media */
 .about__media {
-  align-self: stretch;
+  align-self: center;
 }
 
 .about__mediaStack {
-  height: 100%;
-  min-height: 420px;
-
   display: grid;
-  gap: $sp-4;
-  align-content: center;
+  gap: $sp-3;
 }
 
 .about__photo,
-.about__videoCard {
+.about__videoCard,
+.about__award {
   margin: 0;
   border-radius: $r-3;
   overflow: hidden;
   border: 1px solid $color-border;
-  background: $color-surface-2;
   box-shadow: $shadow-sm;
 }
 
 .about__photo {
-  min-height: 360px;
+  min-height: 300px;
+  background: $color-surface-2;
 
   img {
     display: block;
     width: 100%;
     height: 100%;
-    min-height: 360px;
+    min-height: 300px;
     object-fit: cover;
   }
 }
 
-.about__videoCard {
+.about__awards {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: $sp-4;
+}
+
+.about__videoCard,
+.about__award {
+  display: grid;
+  gap: $sp-2;
+  align-content: start;
   padding: $sp-3;
-  background: $color-surface;
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(17, 24, 39, 0.1);
+  box-shadow: $shadow-sm;
+}
+
+.about__award--featured {
+  border-color: rgba($color-accent, 0.18);
+}
+
+.about__awardMeta {
+  margin: 0;
 }
 
 .about__video {
   display: block;
   width: 100%;
   aspect-ratio: 16 / 9;
-  border-radius: $r-2;
+  border-radius: $r-1;
   background: #000;
 }
 
 .about__caption {
-  margin-top: $sp-2;
+  margin: 0;
   font-size: $fs-small;
-  color: $color-muted;
+  color: $color-text;
+  font-weight: $fw-medium;
+  line-height: $lh-body;
 }
 
 /* Responsive */
@@ -192,6 +211,10 @@
 
   .about__mediaStack {
     min-height: 0;
+  }
+
+  .about__awards {
+    grid-template-columns: 1fr;
   }
 
   .about__photo {
